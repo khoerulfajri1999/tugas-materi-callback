@@ -1,12 +1,22 @@
-fetch("https://jsonplaceholder.typicode.com/users")
-.then((ambil)=>ambil.json())
-.then((ambil)=>{
-	document.querySelector("tbody").innerHTML=ambilData(ambil)
+function ambilData(url, callback){
+  let xhr = new XMLHttpRequest();
+  xhr.onload = function (){
+    if (xhr.status === 200){
+      return callback(JSON.parse(xhr.responseText));
+    }
+  };
+  xhr.open("GET", url)
+  xhr.send();
+}
+
+const data = ambilData("https://jsonplaceholder.typicode.com/users", function(data){
+  console.log(data);
+  document.querySelector("tbody").innerHTML=ambil(data)
 })
 
-function ambilData(data){
+function ambil(x){
 	let output = "";
-	data.forEach((m)=>{
+	x.forEach((m)=>{
 		output += `<tr>
                 <td><center>${m.id}</center></td>
                 <td>${m.name}</td>
